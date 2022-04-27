@@ -5,7 +5,7 @@ const Model = require("../models/Request");
 const mongoose = require("../utils/mongoose");
 const jwt = require("passport-jwt");
 const Auth = require("./../middlewares/Auth");
-var md5 = require('md5');
+var md5 = require("md5");
 
 // Lazy Responder :)
 function responder(res, err, data) {
@@ -41,9 +41,6 @@ router.post("/", (req, res) => {
 
 // C
 router.post("/raw/", (req, res) => {
-  // Model.createData(req.body, (err, data) => {
-  //     responder(res, err, data)
-  // })
   const {
     results: { rows },
   } = req.body;
@@ -57,10 +54,14 @@ router.post("/raw/", (req, res) => {
       budget: cells?.[5]?.text,
       buyerUserName: cells?.[5]?.buttons?.[1]?.meta?.username,
       tags: JSON.stringify(cells?.[2]?.tags),
-      uniqueKey: md5(`${cells?.[5]?.buttons?.[1]?.meta?.username}_${cells?.[0]?.text}_${cells?.[2]?.text}`)
+      uniqueKey: md5(
+        `${cells?.[5]?.buttons?.[1]?.meta?.username}_${cells?.[0]?.text}_${cells?.[2]?.text}`
+      ),
     };
   });
-  console.log(jsonArray);
+  
+  Model.createMany(jsonArray)
+//   console.log(jsonArray);
   responder(res, null, jsonArray);
 });
 
