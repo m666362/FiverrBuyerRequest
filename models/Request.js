@@ -10,13 +10,13 @@ const MongooseSchema = new mongoose.Schema(
       type: String,
     },
     applications: {
-      type: String,
+      type: Number,
     },
     duration: {
-      type: String,
+      type: Number,
     },
     budget: {
-      type: String,
+      type: Number,
     },
     buyerUserName: {
       type: String,
@@ -26,6 +26,7 @@ const MongooseSchema = new mongoose.Schema(
     },
     uniqueKey: {
       type: String,
+      required: true,
       unique: true,
     },
   },
@@ -48,10 +49,10 @@ module.exports.createData = (data, callback) => {
 };
 
 // C
-module.exports.createMany = (data) => {
-  SchemaModel.insertMany(data, { ordered: false }).catch((err) => {
-    console.error(err);
-  });
+module.exports.createMany = (data, callback) => {
+  SchemaModel.insertMany(data, { ordered: false })
+    .then((data) => callback(null, data))
+    .catch((error) => callback(error, null));
 };
 
 // Ra

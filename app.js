@@ -61,6 +61,7 @@ app.use(function (err, req, res) {
 
 var newdb = false;
 if (newdb) {
+    console.log({DB: "DB dropped"});
     db.dropDatabase();
 }
 
