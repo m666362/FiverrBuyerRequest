@@ -32,61 +32,62 @@ module.exports.buildQueries = (queries = {}) => {
 
   let result = {}
   if (date) {
-    result["date"] = `/${date}/`;
+    result["date"] = { "$regex": `${date}`, "$options": "i" }
   }
   if (description) {
-    result["description"] = `/${description}/`;
+    result["description"] = { "$regex": `${description}`, "$options": "i" };
   }
   if (min_applications) {
     result["applications"] = {
         ...result["applications"],
-        $gt: min_applications-1
+        $gt:Number( min_applications)-1
     }
   }
   if (max_applications) {
     result["applications"] = {
         ...result["applications"],
-        $lt: max_applications-1
+        $lt:Number( max_applications )+1
     }
   }
   if (min_duration) {
     result["duration"] = {
         ...result["duration"],
-        $gt: min_duration-1
+        $gt:Number( min_duration)-1
     }
   }
   if (max_duration) {
     result["duration"] = {
         ...result["duration"],
-        $lt: max_duration-1
+        $lt:Number( max_duration)+1
     }
   }
   if (min_budget) {
     result["budget"] = {
         ...result["budget"],
-        $gt: min_budget-1
+        $gt:Number( min_budget)-1
     }
   }
   if (max_budget) {
     result["budget"] = {
         ...result["budget"],
-        $lt: max_budget-1
+        $lt:Number( max_budget)+1
     }
   }
   if (buyerUserName) {
-    result["buyerUserName"] = `/${buyerUserName}/`;
+    result["buyerUserName"] = { "$regex": `${buyerUserName}`, "$options": "i" };
   }
   if (tags) {
-    result["tags"] = `/${tags}/`;
+    result["tags"] = { "$regex": `${tags}`, "$options": "i" };
   }
 
   console.log({result});
 
+  return result;
 //   Person.
 //   find({
 //     occupation: /host/,
 //     'name.last': 'Ghost',
-//     age: { $gt: 17, $lt: 66 },
+//     age: { $gt:Number( 17, $lt:Number( 66 },
 //     likes: { $in: ['vaporizing', 'talking'] }
 //   }).
 //   limit(10).

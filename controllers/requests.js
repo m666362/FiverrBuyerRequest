@@ -61,15 +61,15 @@ router.post("/raw/", (req, res) => {
   const jsonArray = rows.map((row, index) => {
     const { cells } = row;
     return {
-      date: cells?.[0]?.text,
-      description: cells?.[2]?.text,
+      date: cells?.[0]?.text.toLowerCase(),
+      description: cells?.[2]?.text.toLowerCase(),
       applications: Number(cells?.[3]?.text),
       duration: HelperFunction.convertTime(cells?.[4]?.text),
       budget: Number(cells?.[5]?.text.replace(/[^0-9.-]+/g, "")),
       buyerUserName: cells?.[5]?.buttons?.[1]?.meta?.username,
-      tags: JSON.stringify(cells?.[2]?.tags),
+      tags: JSON.stringify(cells?.[2]?.tags).toLowerCase(),
       uniqueKey: md5(
-        `${cells?.[5]?.buttons?.[1]?.meta?.username}_${cells?.[0]?.text}_${cells?.[2]?.text}`
+        `${cells?.[5]?.buttons?.[1]?.meta?.username}_${cells?.[0]?.text.toLowerCase()}_${cells?.[2]?.text.toLowerCase()}`
       ),
     };
   });
@@ -96,7 +96,7 @@ router.get("/", (req, res) => {
     tags,
   } = req.query ?? {};
 
-  HelperFunction.buildQueries(req.query)
+  // HelperFunction.buildQueries(req.query)
 
   // console.log({
   //   date,
@@ -112,7 +112,7 @@ router.get("/", (req, res) => {
   // });
 
   Model.getAllData(
-    {},
+    HelperFunction.buildQueries(req.query),
     req.query["page"] ? req.query["page"] : 0,
     (err, data) => {
       responder(res, err, data);
