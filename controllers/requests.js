@@ -5,7 +5,7 @@ const Model = require("../models/Request");
 const mongoose = require("../utils/mongoose");
 const jwt = require("passport-jwt");
 const Auth = require("./../middlewares/Auth");
-const HelperFunction = require("./../middlewares/HelperFunction")
+const HelperFunction = require("./../middlewares/HelperFunction");
 var md5 = require("md5");
 
 // function BuildQueries(rawQueries) {
@@ -20,8 +20,6 @@ var md5 = require("md5");
 //     queries["budget"] = { $gt: 17, $lt: 66 }
 //   }
 // }
-
-
 
 // Lazy Responder :)
 function responder(res, err, data) {
@@ -67,7 +65,7 @@ router.post("/raw/", (req, res) => {
       description: cells?.[2]?.text,
       applications: Number(cells?.[3]?.text),
       duration: HelperFunction.convertTime(cells?.[4]?.text),
-      budget: Number(cells?.[5]?.text.replace(/[^0-9.-]+/g,"")),
+      budget: Number(cells?.[5]?.text.replace(/[^0-9.-]+/g, "")),
       buyerUserName: cells?.[5]?.buttons?.[1]?.meta?.username,
       tags: JSON.stringify(cells?.[2]?.tags),
       uniqueKey: md5(
@@ -75,16 +73,43 @@ router.post("/raw/", (req, res) => {
       ),
     };
   });
-  
-  Model.createMany(jsonArray , (err, data) => {
+
+  Model.createMany(jsonArray, (err, data) => {
     responder(res, err, data);
   });
-  
 });
 
 // Ra
 router.get("/", (req, res) => {
   let queries = {};
+
+  const {
+    date,
+    description,
+    min_applications,
+    max_applications,
+    min_duration,
+    max_duration,
+    min_budget,
+    max_budget,
+    buyerUserName,
+    tags,
+  } = req.query ?? {};
+
+  HelperFunction.buildQueries(req.query)
+
+  // console.log({
+  //   date,
+  //   description,
+  //   min_applications,
+  //   max_applications,
+  //   min_duration,
+  //   max_duration,
+  //   min_budget,
+  //   max_budget,
+  //   buyerUserName,
+  //   tags,
+  // });
 
   Model.getAllData(
     {},
