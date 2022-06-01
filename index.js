@@ -2,7 +2,6 @@
 // const readline = require('readline');
 // const {google} = require('googleapis');
 
-
 // // If modifying these scopes, delete token.json.
 // const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // // The file token.json stores the user's access and refresh tokens, and is
@@ -96,19 +95,16 @@ const { default: axios } = require("axios");
 const nodeCron = require("node-cron");
 const api_key = "AIzaSyCYuKbXa9Anfj3uKj2Bsk8Cz_6B8wszdKU";
 
-const job = nodeCron.schedule("0 16 13 * * *", function jobYouNeedToExecute() {
+const job = nodeCron.schedule("0 18 13 * * *", function jobYouNeedToExecute() {
   // Do whatever you want in here. Send email, Make  database backup or download data.
   console.log(new Date().toLocaleString());
-}
-);
-
-
-axios
-  .get(
-    `https://sheets.googleapis.com/v4/spreadsheets/1rihUxQ6usMrWBucm8Wbt9dijUF713ZyWKgdxiUwu5Wc/values/Sheet1!A1:d6?key=${api_key}`
-  )
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log({ err: err?.response?.data }));
+  axios
+    .get(
+      `https://sheets.googleapis.com/v4/spreadsheets/1rihUxQ6usMrWBucm8Wbt9dijUF713ZyWKgdxiUwu5Wc/values/Sheet1!A1:d6?key=${api_key}`
+    )
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log({ err: err?.response?.data }));
+});
 
 // axios.put(`https://sheets.googleapis.com/v4/spreadsheets/1rihUxQ6usMrWBucm8Wbt9dijUF713ZyWKgdxiUwu5Wc:batchUpdate?key=${api_key}`, {
 //   requests: [
@@ -122,3 +118,4 @@ axios
 // });
 
 // A1:B2
+// https://www.freecodecamp.org/news/schedule-a-job-in-node-with-nodecron/
