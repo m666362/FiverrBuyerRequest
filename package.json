@@ -5,23 +5,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon bin/www"
+    "start": "nodemon bin/www",
+    "dev": "nodemon index.js"
   },
   "author": "p32929",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "googleapis": "39",
     "helmet": "^3.23.3",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "mongoose": "^5.9.25",
     "mongoose-autopopulate": "^0.12.2",
     "morgan": "^1.10.0",
+    "node-cron": "^3.0.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-http": "^0.3.0",
