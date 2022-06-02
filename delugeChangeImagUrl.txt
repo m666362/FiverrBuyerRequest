@@ -1,0 +1,184 @@
+email_template_id = "4330516000011660001";
+connection_name = "email_conn";
+base_url = "https://www.zohoapis.com/crm/v3/settings/email_templates/";
+url = base_url + email_template_id;
+replace_url = "https://c8.alamy.com/comp/HW349K/customer-relationship-management-concept-with-businessman-touching-HW349K.jpg";
+org_img_url = "https://thumbs.dreamstime.com/b/crm-customer-relationship-management-tablet-office-desk-150255008.jpg";
+email_templ_resp = invokeurl
+[
+	url: url
+	type: GET
+	connection:"email_conn"
+];
+
+info email_templ_resp;
+content = email_templ_resp.get("email_templates").get(0).get("mail_content");
+result = content.replaceAll(replace_url,org_img_url);
+info content;
+emails_map = Map(); 
+emails_map.put("raihan@instawebworks.com.au","raihan@instawebworks.com.au"); 
+
+mydata = {
+    "data": [
+        {
+            "from": {
+                "user_name": "Patricia Boyle",
+                "email": zoho.loginuserid
+            },
+            "to": [
+                {
+                    "user_name": "Md Raihan",
+                    "email": "raihan@instawebworks.com.au"
+                }
+            ],
+            "subject": "Testing Send Mail API",
+			"content": content.toString(),
+            "mail_format": "html",
+            "template": {
+                "id": "4330516000011660001"
+            }
+        }
+    ]
+};
+
+resSendMail = invokeurl
+[
+	url: "https://www.zohoapis.com/crm/v3/Leads/4330516000009728002/actions/send_mail"
+	type: POST
+	parameters: mydata.toString()
+	connection:"email_conn"
+];
+info resSendMail;
+/*
+sendmail 
+[ 
+from :zoho.loginuserid 
+to :emails_map.keys() 
+subject :"Deal stage changed" 
+message :content.toString()
+] 
+
+/*
+image_url = "https://thumbs.dreamstime.com/b/crm-customer-relationship-management-tablet-office-desk-150255008.jpg";
+
+sendmail
+[
+	from: zoho.adminuserid 
+	to: "raihan@instawebworks.com.au"
+	subject: "Test something"
+	message: "somehing that io wasaksdkfjskf"
+];
+
+emails_map = Map(); 
+emails_map.put("raihan@instawebworks.com.au","raihan@instawebworks.com.au"); 
+sendmail 
+[ 
+from :zoho.loginuserid 
+to :emails_map.keys() 
+subject :"Deal stage changed" 
+message :body
+] 
+
+/*
+image_url = "https://thumbs.dreamstime.com/b/crm-customer-relationship-management-tablet-office-desk-150255008.jpg";
+
+body = "<tbody> <tr> <td valign='top' style='border: 0px; word-wrap: break-word; word-break: break-word'> <div class='zpcontent-wrapper' id='page-container'> <table cellspacing='0' cellpadding='0' style='min-width: 100%; max-width: 100%; table-layout: fixed; border: 0px; border-collapse: collapse' width='100%'> <tbody> <tr> <td class='txtsize' valign='top' style='border: 0px'> <div class='zpelement-wrapper text'> <table title='' cellspacing='0' cellpadding='0' style='text-rendering: optimizeLegibility; font-size: 13px; letter-spacing: normal; font-family: Arial, Helvetica, sans-serif; min-width: 100%; max-width: 100%; table-layout: fixed; border: 0px; border-collapse: collapse; background-color: rgba(0, 0, 0, 0)' width='100%'> <tbody> <tr> <td style='word-wrap: break-word; word-break: break-word; border: 0px; padding: 6px 16px; border-top: 0px none rgb(17, 17, 17); border-bottom: 0px none rgb(17, 17, 17); font-family: Arial, Helvetica, sans-serif'> <p style='padding: 0px; margin: 0px'><font size='2' face='Arial,Helvetica,sans-serif'>Hello ${Leads.Lead Name}</font></p></td></tr></tbody> </table> </div></td></tr><tr> <td class='txtsize' valign='top' style='border: 0px'> <div class='zpelement-wrapper text'> <table title='' cellspacing='0' cellpadding='0' style='text-rendering: optimizeLegibility; font-size: 13px; letter-spacing: normal; font-family: Arial, Helvetica, sans-serif; min-width: 100%; max-width: 100%; table-layout: fixed; border: 0px; border-collapse: collapse; background-color: rgba(0, 0, 0, 0)' width='100%'> <tbody> <tr> <td style='word-wrap: break-word; word-break: break-word; border: 0px; padding: 6px 16px; border-top: 0px none rgb(17, 17, 17); border-bottom: 0px none rgb(17, 17, 17); font-family: Arial, Helvetica, sans-serif'> <p style='padding: 0px; margin: 0px'><font size='6' face='Arial,Helvetica,sans-serif'>Insta web works</font></p></td></tr></tbody> </table> </div></td></tr><tr> <td class='txtsize' valign='top' style='border: 0px'> <div class='zpelement-wrapper image'> <table title='' cellspacing='0' cellpadding='0' style='min-width: 100%; max-width: 100%; table-layout: fixed; border: 0px; border-collapse: collapse; background-color: rgba(0, 0, 0, 0)' width='100%'> <tbody> <tr> <td style='word-wrap: break-word; word-break: break-word; border: 0px; padding: 6px 16px; border-top: 0px none rgb(17, 17, 17); border-bottom: 0px none rgb(17, 17, 17)'> <p style='width: 100%; padding: 0px; margin: 0px; float: none; text-align: center'><img class='zpImage imgsize_O' alt='asdfsadf' style='width: 100%; border: 0px solid black; resize: none; top: 0px; max-width: 100%; vertical-align: top' imgsize='O' src='https://thumbs.dreamstime.com/b/crm-customer-relationship-management-tablet-office-desk-150255008.jpg' width='69.1458' height='800'></p></td></tr></tbody> </table> </div></td></tr><tr> <td class='txtsize' valign='top' style='border: 0px'> <div class='zpelement-wrapper text'> <table title='' cellspacing='0' cellpadding='0' style='text-rendering: optimizeLegibility; font-size: 13px; letter-spacing: normal; font-family: Arial, Helvetica, sans-serif; min-width: 100%; max-width: 100%; table-layout: fixed; border: 0px; border-collapse: collapse; background-color: rgba(0, 0, 0, 0)' width='100%'> <tbody> <tr> <td style='word-wrap: break-word; word-break: break-word; border: 0px; padding: 6px 16px; border-top: 0px none rgb(17, 17, 17); border-bottom: 0px none rgb(17, 17, 17); font-family: Arial, Helvetica, sans-serif'> <p style='padding: 0px; margin: 0px'><font size='2' face='Arial,Helvetica,sans-serif'>test</font></p></td></tr></tbody> </table> </div></td></tr></tbody> </table> </div></td></tr></tbody>";
+info body;
+
+// info {"body": body};
+info zoho.loginuserid;
+
+// Send mail - 2
+/* 
+  Company: Insta Web Works Pty Ltd 
+  Author: Md Rayhan 
+  Function Name: Send Mail - 2 
+  Version: 1 
+  Client ID: l06x2f75ac2fd3ca0433596753b1e356deb58 
+  Function ID: p8xiac59eaca4f01b4a659b7b78fc00a5e835 
+  Time: 2022-02-24 13:37:56 
+  For any modification please contact emran@instawebworks.com.au 
+
+// rayhan_demo_connection_1 
+// Get deal resp 
+emails_map = Map(); 
+deal_module = "Deals"; 
+// deal_id = 4728790000003888527; 
+deal_id = 4728790000003870041; 
+deal_resp = zoho.crm.getRecordById(deal_module,deal_id); 
+// info deal_resp; 
+// set deal_owner_mail mail 
+deal_owner_mail = deal_resp.get("Owner").get("email"); 
+emails_map.put(deal_owner_mail,deal_owner_mail); 
+// Get Account resp 
+if(deal_resp.get("Account_Name") != null) 
+{ 
+account_module = "Accounts"; 
+account_id = deal_resp.get("Account_Name").get("id"); 
+account_resp = zoho.crm.getRecordById(account_module,account_id); 
+// info account_resp; 
+// set account_owner_mail mail 
+account_owner_mail = account_resp.get("Owner").get("email"); 
+emails_map.put(account_owner_mail,account_owner_mail); 
+if(account_resp.get("Account_Email") != null) 
+{ 
+account_mail = account_resp.get("Account_Email"); 
+// account_mail = "emran@instawebworks.com.au"; 
+emails_map.put(account_mail,account_mail); 
+} 
+} 
+// Get Contact resp 
+if(deal_resp.get("Contact_Name") != null) 
+{ 
+ 
+contact_module = "Contacts"; 
+contact_id = deal_resp.get("Contact_Name").get("id"); 
+contact_resp = zoho.crm.getRecordById(contact_module,contact_id); 
+// info contact_resp; 
+// set contact_owner_mail mail 
+contact_owner_mail = contact_resp.get("Owner").get("email"); 
+emails_map.put(contact_owner_mail,contact_owner_mail); 
+if(contact_resp.get("Email") != null) 
+{ 
+contact_mail = contact_resp.get("Email"); 
+emails_map.put(contact_mail,contact_mail); 
+} 
+} 
+// Deal Owner, Account Owner, Contact Owner, Contact Email, Account Email. 
+// Configuring mail 
+email_list = List(); 
+for each  key in emails_map 
+{ 
+temp_email_map = {"user_name":"Md Rayhan","email":"mdrayhan9464@gmail.com"}; 
+email_list.add(temp_email_map); 
+} 
+temp_email_map = {"user_name":"Md Rayhan","email":"emran@instawebworks.com.au"}; 
+email_list.add(temp_email_map); 
+temp_email_map = {"user_name":"Md Rayhan","email":"mdrayhan9464@gmail.com"}; 
+email_list.add(temp_email_map); 
+temp_email_map = {"user_name":"Md Rayhan","email":"raihan@instawebworks.com.au"}; 
+email_list.add(temp_email_map); 
+info email_list.toString(); 
+deal_id = 4728790000003870041; 
+json_data = {"data":{{"from":{"user_name":"Super 
+Admin","email":zoho.adminuserid},"cc":{{"user_name":"user1","email":"emran@instawebworks.c
+om.au"}},"reply_to":{"user_name":"user1","email":"user1@demo4.instawebworks.com.au"},"subj
+ect":"Testing Send Mail API","content":"Something from api"}}}; 
+data = json_data.get("data"); 
+temp_data = data.get(0); 
+temp_data.put("to",email_list); 
+temp_list = List(); 
+temp_list.add(temp_data); 
+json_data.put("data",temp_list); 
+info json_data; 
+// json_data = json_data.tofile("json_data.json"); 
+response = invokeurl 
+[ 
+url :"https://www.zohoapis.com/crm/v2.1/Deals/" + deal_id + "/actions/send_mail" 
+type :POST 
+parameters:json_data.toString() 
+connection:"rayhan_demo_connection_1" 
+]; 
+info response; 
+/*
+*/

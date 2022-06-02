@@ -93,6 +93,9 @@
 
 const { default: axios } = require("axios");
 const nodeCron = require("node-cron");
+const puppeteer = require("puppeteer");
+const ora = require("ora");
+const chalk = require("chalk");
 const api_key = "AIzaSyCYuKbXa9Anfj3uKj2Bsk8Cz_6B8wszdKU";
 
 const job = nodeCron.schedule("0 18 13 * * *", function jobYouNeedToExecute() {
@@ -104,6 +107,9 @@ const job = nodeCron.schedule("0 18 13 * * *", function jobYouNeedToExecute() {
     )
     .then((res) => console.log(res.data))
     .catch((err) => console.log({ err: err?.response?.data }));
+
+    const url = "https://www.worldometers.info/world-population/";
+
 });
 
 // axios.put(`https://sheets.googleapis.com/v4/spreadsheets/1rihUxQ6usMrWBucm8Wbt9dijUF713ZyWKgdxiUwu5Wc:batchUpdate?key=${api_key}`, {
